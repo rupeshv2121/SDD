@@ -1,0 +1,23 @@
+flowchart LR
+  I1[/"Doubt or complaint saved"/]:::io --> Q["Enqueue EmbeddingJob<br/>never blocks the user action"]
+  Q --> JQ[("EmbeddingJob queue")]:::store
+  JQ --> W["Embedding worker<br/>batch of 50, retry on failure"]
+  W -->|"text"| HF["HuggingFace Inference<br/>all-MiniLM-L6-v2"]:::ext
+  HF -->|"384-d vector"| W
+  W --> VEC[("embedding vector(384)<br/>HNSW cosine index")]:::store
+  I2[/"Search text from student"/]:::io --> C["Query embedding cache<br/>60 s, 200 entries"]
+  C --> K["Keyword retriever<br/>(Minor baseline)"]
+  C --> FT["Full-text retriever<br/>tsvector, OR semantics"]
+  C --> VR["Vector retriever<br/>cosine nearest neighbours"]
+  VR --> VEC
+  K --> RRF["Weighted RRF fusion<br/>k = 60, vector 3, keyword 2, FTS 1"]
+  FT --> RRF
+  VR --> RRF
+  RRF --> O[/"Ranked similar doubts"/]:::io
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

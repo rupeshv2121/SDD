@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box} body{margin:0;font:13px/1.45 Arial,Helvetica,sans-serif;color:#222;background:#fff}
+.shell{display:grid;grid-template-columns:210px 1fr;width:1280px;min-height:780px;border:2px solid #333}
+.side{background:#f1f1f1;border-right:1.5px solid #555;padding:14px 12px}
+.brand{font-weight:bold;font-size:16px;margin-bottom:16px}.brand span{display:inline-block;width:18px;height:18px;border:2px solid #333;border-radius:4px;vertical-align:-3px;margin-right:6px}
+.grp{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#666;margin:12px 0 4px}
+.nav{padding:6px 8px;border-radius:4px;margin-bottom:2px}.nav.on{background:#d9d9d9;font-weight:bold;border-left:3px solid #333}
+.main{display:flex;flex-direction:column}
+.top{height:52px;border-bottom:1.5px solid #555;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.top .r{display:flex;gap:10px;align-items:center}.ic{width:26px;height:26px;border:1.5px solid #555;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.content{padding:18px 22px;display:flex;flex-direction:column;gap:14px;position:relative;flex:1}
+h1{font-size:20px;margin:0}.sub{color:#555;margin-top:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:10px}
+.box{border:1.5px solid #555;border-radius:6px;padding:12px;background:#fff}
+.stat{flex:1;min-width:150px}.stat b{display:block;font-size:22px}.muted{color:#666}
+.btn{display:inline-block;border:1.5px solid #333;border-radius:5px;padding:6px 12px;background:#e6e6e6;font-weight:bold}
+.btn.p{background:#333;color:#fff}.btn.o{background:#fff}
+.inp{border:1.5px solid #777;border-radius:4px;padding:7px 9px;color:#777;background:#fafafa}
+.lbl{font-weight:bold;font-size:12px;margin-bottom:3px}
+.chip{display:inline-block;border:1px solid #666;border-radius:10px;padding:1px 8px;font-size:11px;margin-right:4px;background:#f3f3f3}
+.badge{display:inline-block;border:1.5px solid #333;border-radius:3px;padding:1px 6px;font-size:10px;font-weight:bold;letter-spacing:.04em}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #888;padding:7px 8px;text-align:left}th{background:#e9e9e9}
+.line{height:9px;background:#d6d6d6;border-radius:3px;margin:6px 0}.line.s{width:55%}.line.m{width:78%}
+.chart{height:150px;border:1.5px dashed #777;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#666;background:repeating-linear-gradient(45deg,#fafafa,#fafafa 8px,#f0f0f0 8px,#f0f0f0 16px)}
+.img{height:70px;width:100px;border:1.5px solid #777;background:linear-gradient(135deg,#eee 49%,#999 50%,#eee 51%)}
+.modal{position:absolute;inset:0;background:rgba(0,0,0,.28);display:flex;align-items:flex-start;justify-content:center;padding-top:30px}
+.modal .box{width:560px;box-shadow:0 4px 0 #555}
+.stamp{position:absolute;right:14px;bottom:10px;border:2px dashed #b00;color:#b00;font-weight:bold;padding:4px 10px;font-size:12px;letter-spacing:.06em;background:#fff}
+.tabs{display:flex;gap:0;border-bottom:1.5px solid #555}.tab{padding:6px 14px;border:1.5px solid #555;border-bottom:none;margin-right:-1.5px;background:#f3f3f3}.tab.on{background:#fff;font-weight:bold}
+.chat{position:absolute;right:22px;bottom:46px;width:340px;border:2px solid #333;border-radius:8px;background:#fff;box-shadow:0 4px 0 #555}
+.chat .h{background:#333;color:#fff;padding:8px 10px;font-weight:bold;border-radius:6px 6px 0 0}
+.msg{margin:8px 10px;padding:7px 9px;border-radius:6px;border:1px solid #888;max-width:80%}.msg.u{margin-left:auto;background:#e6e6e6}
+.fab{position:absolute;right:22px;bottom:12px}
+.draft{border:2px dashed #333;background:#f7f7f7}
+</style></head><body>
+<div class="shell"><aside class="side"><div class="brand"><span></span>CampusCure</div><div class="grp">Overview</div><div class="nav">Dashboard</div><div class="grp">Complaints</div><div class="nav">Raise Complaint</div><div class="nav">My Complaints</div><div class="grp">Learning</div><div class="nav on">Doubt Community</div><div class="nav">Saved Doubts</div><div class="nav">Reputation</div><div class="nav">Staff Directory</div></aside>
+<div class="main"><div class="top"><div class="muted">Student workspace</div>
+<div class="r"><span class="chip">EN / हिंदी</span><span class="ic">🔔</span><span class="ic">◐</span><span class="ic">A</span></div></div>
+<div class="content"><div class="row" style="justify-content:space-between;align-items:flex-end"><div><h1>Doubt Community</h1><div class="sub">Ask, answer, and learn together</div></div><div><span class="btn p">Ask a Doubt</span></div></div><div class="row"><div style="width:40%"><div class="lbl">Search</div><div class="inp">Search doubts...</div></div><div style="width:22%"><div class="lbl">Subject</div><div class="inp">Filter by subject</div></div><div style="width:14%"><div class="lbl">Semester</div><div class="inp">Semester</div></div></div><div class="tabs"><div class="tab on">All</div><div class="tab">My doubts</div><div class="tab">Unanswered</div></div><div class="row"><div class="col" style="flex:3"><div class="box"><div class="row" style="justify-content:space-between"><b>Doubt title</b><span class="badge">OPEN</span></div><div class="line m"></div><span class="chip">dbms</span><span class="chip">indexing</span> <span class="muted">▲ n · n answers · n views · Subject · Sem n</span></div><div class="box"><div class="row" style="justify-content:space-between"><b>Doubt title</b><span class="badge">OPEN</span></div><div class="line m"></div><span class="chip">dbms</span><span class="chip">indexing</span> <span class="muted">▲ n · n answers · n views · Subject · Sem n</span></div><div class="box"><div class="row" style="justify-content:space-between"><b>Doubt title</b><span class="badge">OPEN</span></div><div class="line m"></div><span class="chip">dbms</span><span class="chip">indexing</span> <span class="muted">▲ n · n answers · n views · Subject · Sem n</span></div></div><div class="box" style="flex:1.2"><div class="lbl">Most Active Subjectwise Doubts</div><div class="chart" style="height:180px">bar chart</div></div></div><div class="fab"><span class="btn p">Assistant</span></div><div class="stamp">ILLUSTRATIVE WIREFRAME — NOT A SCREENSHOT</div></div></div></div></body></html>

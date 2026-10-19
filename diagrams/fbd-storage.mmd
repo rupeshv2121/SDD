@@ -1,0 +1,16 @@
+flowchart LR
+  I1[/"File metadata<br/>name, MIME, size"/]:::io --> SG["Upload signer<br/>allow-list JPEG, PNG, WebP,<br/>HEIC, PDF; max 5 MB;<br/>20 per minute"]
+  SG --> AT[("Attachment<br/>status PENDING")]:::store
+  SG --> O1[/"Signed upload URL"/]:::io
+  O1 --> BK[("Supabase Storage<br/>private bucket")]:::store
+  I2[/"attachmentIds on doubt,<br/>answer or complaint"/]:::io --> CF["Confirm step<br/>object exists, owner matches"] --> AT2[("Attachment<br/>status ATTACHED")]:::store
+  I3[/"GET /api/attachments/:id"/]:::io --> AZ["Access check<br/>owner, complaint parties,<br/>doubt readers"] --> O2[/"Short-lived signed<br/>download URL"/]:::io
+  SW["Nightly sweep"] --> BK
+  SW --> AT
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

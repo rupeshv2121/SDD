@@ -1,0 +1,16 @@
+flowchart LR
+  I1[/"Uploaded image<br/>attachmentId"/]:::io --> V["Validator<br/>JPEG, PNG, WebP only,<br/>max 3 MB, owner check"]
+  V --> DL["Fetch bytes from<br/>Supabase Storage"]
+  DL --> P["Vision prompt<br/>transcribe only, never solve"]
+  P --> VM["Vision provider chain<br/>Groq qwen3.8-27b, Mistral fallback"]:::ext
+  VM --> PJ["Response parser<br/>title 100, description 5000,<br/>max 5 labels, known subject"]
+  PJ --> O[/"Draft fields for the doubt form<br/>nothing is written"/]:::io
+  V -->|"invalid"| E[/"4xx error,<br/>manual entry remains"/]:::io
+  VM -->|"timeout / error"| E
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

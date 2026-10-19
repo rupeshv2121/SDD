@@ -1,0 +1,21 @@
+flowchart LR
+  I1[/"Registration form<br/>name, email, password, role"/]:::io --> R["Register handler<br/>self-service: STUDENT, FACULTY only"]
+  R --> UST[("User<br/>approvalStatus = PENDING")]:::store
+  I2[/"Email + password"/]:::io --> L["Login handler<br/>bcrypt compare, generic error"]
+  L --> F{"Second factor<br/>enrolled?"}
+  F -->|"none"| S["Session issuer<br/>access JWT 15 min,<br/>refresh token 7 days"]
+  F -->|"TOTP"| T["TOTP / recovery-code<br/>verifier"]:::major
+  F -->|"face"| FV["Face challenge verifier<br/>encrypted template"]:::major
+  T --> S
+  FV --> S
+  I3[/"Email sign-in code"/]:::io --> E["Email OTP verifier"]:::major --> S
+  I4[/"Refresh token"/]:::io --> RR["Refresh rotation<br/>and revocation"]:::major --> S
+  S --> O1[/"Token pair to client"/]:::io
+  I5[/"Bearer token on request"/]:::io --> A1["authenticate()<br/>verify JWT, user active"] --> A2["authorize(roles)"] --> O2[/"req.user to controller<br/>or 401 / 403"/]:::io
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

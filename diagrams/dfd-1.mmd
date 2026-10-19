@@ -1,0 +1,65 @@
+flowchart LR
+  S["Student"]:::entity
+  F["Faculty"]:::entity
+  A["Admin /<br/>Super Admin"]:::entity
+  AIP["AI Providers"]:::entity
+  MSG["Messaging<br/>Providers"]:::entity
+  CR["Scheduler"]:::entity
+
+  P1(["1.0<br/>Authenticate and<br/>manage users"])
+  P2(["2.0<br/>Manage doubts<br/>and answers"])
+  P3(["3.0<br/>Search and<br/>AI assistance"])
+  P4(["4.0<br/>Manage<br/>complaints"])
+  P5(["5.0<br/>Notify users"])
+  P6(["6.0<br/>Run scheduled<br/>jobs"])
+  P7(["7.0<br/>Report and<br/>audit"])
+
+  D1[("D1 Users and profiles")]:::store
+  D2[("D2 Doubts and answers")]:::store
+  D3[("D3 Complaints")]:::store
+  D4[("D4 Notifications and outbox")]:::store
+  D5[("D5 Embedding jobs")]:::store
+  D6[("D6 AI drafts")]:::store
+  D7[("D7 Audit and consent")]:::store
+
+  S -->|"credentials"| P1
+  A -->|"approvals"| P1
+  P1 -->|"tokens"| S
+  P1 <-->|"user records"| D1
+  S -->|"doubt, answer"| P2
+  F -->|"answer, moderation"| P2
+  P2 <-->|"doubt, answer rows"| D2
+  P2 -->|"embedding request"| D5
+  S -->|"query, image, chat"| P3
+  P3 -->|"text, prompt"| AIP
+  AIP -->|"vector, reply"| P3
+  P3 <-->|"vectors, sources"| D2
+  P3 <-->|"drafts"| D6
+  F -->|"draft decision"| P3
+  P3 -->|"suggestions, replies"| S
+  S -->|"complaint, verdict"| P4
+  A -->|"assignment"| P4
+  F -->|"status update"| P4
+  P4 <-->|"complaint rows"| D3
+  P2 -->|"event"| P5
+  P4 -->|"event"| P5
+  P5 -->|"notification, outbox"| D4
+  D4 -->|"pending messages"| P5
+  P5 -->|"messages"| MSG
+  CR -->|"trigger"| P6
+  P6 -->|"jobs"| D5
+  P6 -->|"overdue updates"| D3
+  P6 -->|"generate"| P3
+  P1 -->|"audit entry"| D7
+  P4 -->|"audit entry"| D7
+  D7 -->|"audit rows"| P7
+  D3 -->|"counts"| P7
+  D2 -->|"counts"| P7
+  P7 -->|"dashboards, audit log"| A
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

@@ -1,0 +1,20 @@
+flowchart LR
+  I1[/"Complaint form<br/>title, description, category,<br/>block, room, priority 1-5, photos"/]:::io --> FI["Filing service<br/>validate, one transaction,<br/>update student counters"]
+  FI --> CS[("Complaint<br/>status RAISED")]:::store
+  FI --> EQ["Embedding request<br/>(duplicate detection)"]:::major
+  I2[/"Assign: complaint + assignee"/]:::io --> AS["Assignment service<br/>Admin, history entry"] --> CS
+  I3[/"Status change + note,<br/>resolution photos"/]:::io --> LC["Lifecycle service<br/>allowed-target rules"] --> CS
+  I4[/"Confirm or reject<br/>+ reason"/]:::io --> VD["Verdict service<br/>student owner only"] --> CS
+  I5[/"Rating 1-5 + comment"/]:::io --> FB["Feedback service<br/>RESOLVED only"] --> CS
+  I6[/"Escalated reassignment<br/>+ note"/]:::io --> SA["Escalation handler<br/>Super Admin"] --> CS
+  AS --> N["Notification requests"]
+  LC --> N
+  VD --> N
+  SA --> N
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

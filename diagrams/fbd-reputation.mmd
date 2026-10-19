@@ -1,0 +1,18 @@
+flowchart LR
+  I1[/"Answer accepted"/]:::io --> RE["Reputation service<br/>accepted 15, upvoted 10,<br/>approved 2, doubt upvoted 2"]
+  I2[/"Answer upvoted"/]:::io --> RE
+  I3[/"Answer approved"/]:::io --> RE
+  I4[/"Doubt upvoted"/]:::io --> RE
+  RE --> CAP{"Daily cap 50<br/>and unique event?"}
+  CAP -->|"yes"| EV[("ReputationEvent +<br/>User.reputation")]:::store
+  EV --> RK[/"Rank: Newcomer, Contributor,<br/>Helper, Mentor, Expert;<br/>leaderboard"/]:::io
+  I5[/"Stats request<br/>window 30, 90 or 365 days"/]:::io --> FS["Faculty statistics<br/>min sample 3"]
+  FS --> DB[("Answer, Complaint")]:::store
+  FS --> O2[/"Own stats (faculty)<br/>all faculty (Admin)"/]:::io
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

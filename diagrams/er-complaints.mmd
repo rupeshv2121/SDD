@@ -1,0 +1,25 @@
+erDiagram
+  USER ||--o{ COMPLAINT : "raises"
+  USER |o--o{ COMPLAINT : "is assigned"
+  USER ||--o{ ATTACHMENT : "uploads"
+  USER ||--o{ NOTIFICATION : "receives"
+  USER ||--o{ REFRESH_TOKEN : "holds"
+  USER ||--o{ FACE_CHALLENGE : "gets"
+  USER ||--o{ MFA_CHALLENGE : "gets"
+  USER ||--o{ RECOVERY_CODE : "owns"
+  USER ||--o{ EMAIL_LOGIN_CODE : "gets"
+  USER ||--o{ PUSH_SUBSCRIPTION : "registers"
+  USER ||--o{ CONSENT_RECORD : "gives"
+  COMPLAINT ||--o{ ATTACHMENT : "entityType, entityId (logical)"
+  COMPLAINT { uuid id PK
+    uuid raisedById FK
+    uuid assignedToId FK }
+  ATTACHMENT { uuid id PK
+    uuid uploadedById FK
+    string entityId "polymorphic" }
+  EMAIL_OUTBOX { uuid id PK
+    string dedupeKey UK }
+  EMBEDDING_JOB { uuid id PK
+    string entityId "polymorphic" }
+  AUDIT_LOG { uuid id PK
+    string actorId "no FK" }

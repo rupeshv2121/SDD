@@ -1,0 +1,29 @@
+flowchart LR
+  S["Student"]:::entity
+  F["Faculty / Staff"]:::entity
+  A["Admin"]:::entity
+  X["Super Admin"]:::entity
+  P(["0<br/>CampusCure<br/>System"])
+  AIP["AI Providers"]:::entity
+  MSG["Messaging<br/>Providers"]:::entity
+  CR["Scheduler<br/>(Vercel Cron)"]:::entity
+
+  S -->|"credentials, doubts, answers,<br/>complaints, photos, feedback,<br/>chat questions"| P
+  P -->|"tokens, search results, AI replies,<br/>complaint status, notifications"| S
+  F -->|"answers, moderation decisions,<br/>draft reviews, status updates"| P
+  P -->|"doubt queue, assigned complaints,<br/>AI drafts, statistics"| F
+  A -->|"approvals, assignments,<br/>status overrides"| P
+  P -->|"dashboards, user lists,<br/>duplicate clusters, candidates"| A
+  X -->|"settings, permissions,<br/>escalation decisions"| P
+  P -->|"escalated complaints,<br/>audit log, system stats"| X
+  P -->|"text to embed, prompts, images"| AIP
+  AIP -->|"vectors, completions,<br/>transcriptions"| P
+  P -->|"emails, chat messages, pushes"| MSG
+  CR -->|"daily trigger"| P
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

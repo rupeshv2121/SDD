@@ -1,0 +1,28 @@
+flowchart TD
+  A(["Start"]):::term --> B[/"Describe problem in own words"/]:::io
+  B --> C["POST complaints/parse"]
+  C --> D{"Rules match<br/>a category?"}
+  D -->|"yes"| E["Use rules result"]
+  D -->|"no"| F{"AI available?"}
+  F -->|"yes"| G["LLM extracts fields"]
+  F -->|"no"| E
+  G --> H[/"Prefilled form: student edits<br/>category, block, room, priority"/]:::io
+  E --> H
+  H --> I["GET complaints/similar"]
+  I --> J{"Duplicates found?"}
+  J -->|"yes"| K[/"Show 'already reported' list"/]:::io --> L
+  J -->|"no"| L{"Submit anyway?"}
+  L -->|"no"| Z
+  L -->|"yes"| M{"All fields valid,<br/>priority 1-5,<br/>category allowed?"}
+  M -->|"no"| M1[/"400 with message"/]:::io --> H
+  M -->|"yes"| N["Transaction: create RAISED complaint,<br/>attach photos, update counters"]
+  N --> O["Compute SLA deadline,<br/>enqueue embedding"]
+  O --> P[/"Complaint id and status shown"/]:::io
+  P --> Z(["End"]):::term
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

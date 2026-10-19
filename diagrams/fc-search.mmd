@@ -1,0 +1,20 @@
+flowchart TD
+  A(["Start: query q"]):::term --> B{"q long enough?"}
+  B -->|"no"| B1[/"Empty list"/]:::io --> Z
+  B -->|"yes"| C["Run keyword retriever"]
+  C --> D["Run full-text retriever<br/>(OR semantics)"]
+  D --> E{"AI enabled and<br/>vector cached or<br/>embedding succeeds?"}
+  E -->|"yes"| F["Vector retriever:<br/>HNSW cosine top-k"]
+  E -->|"no"| G["Skip vector branch"]
+  F --> H["Weighted RRF:<br/>score = sum of w / (60 + rank)"]
+  G --> H
+  H --> I["Fetch rows for top ids,<br/>attach matched keywords"]
+  I --> J[/"Return ranked suggestions"/]:::io
+  J --> Z(["End"]):::term
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

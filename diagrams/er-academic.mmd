@@ -1,0 +1,27 @@
+erDiagram
+  USER ||--o| STUDENT_PROFILE : "has"
+  USER ||--o| FACULTY_PROFILE : "has"
+  USER ||--o| ADMIN_PROFILE : "has"
+  USER ||--o{ DOUBT : "posts"
+  USER ||--o{ ANSWER : "writes"
+  USER |o--o{ ANSWER : "moderates"
+  DOUBT ||--o{ ANSWER : "receives"
+  DOUBT ||--o{ DOUBT_VIEW : "viewed in"
+  DOUBT ||--o{ DOUBT_UPVOTE : "upvoted in"
+  ANSWER ||--o{ ANSWER_UPVOTE : "upvoted in"
+  DOUBT ||--o{ DOUBT_BOOKMARK : "saved in"
+  USER ||--o{ DOUBT_VIEW : "views"
+  USER ||--o{ DOUBT_UPVOTE : "casts"
+  USER ||--o{ ANSWER_UPVOTE : "casts"
+  USER ||--o{ DOUBT_BOOKMARK : "saves"
+  USER ||--o{ REPUTATION_EVENT : "earns"
+  DOUBT ||--o| ANSWER_DRAFT : "doubtId (logical)"
+  USER { uuid id PK }
+  DOUBT { uuid id PK
+    uuid postedById FK }
+  ANSWER { uuid id PK
+    uuid doubtId FK
+    uuid answeredById FK
+    uuid moderatedById FK }
+  ANSWER_DRAFT { uuid id PK
+    string doubtId UK }

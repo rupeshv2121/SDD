@@ -1,0 +1,31 @@
+flowchart TD
+  A(["Start"]):::term --> B[/"Enter email and password"/]:::io
+  B --> C{"Both present?"}
+  C -->|"no"| C1[/"400: fields required"/]:::io --> B
+  C -->|"yes"| D["Find user by email"]
+  D --> E{"User found and<br/>bcrypt matches?"}
+  E -->|"no"| E1[/"401: Invalid email or password"/]:::io --> B
+  E -->|"yes"| F{"Account erased?"}
+  F -->|"yes"| F1[/"403: account erased"/]:::io --> Z
+  F -->|"no"| G{"TOTP enabled?"}
+  G -->|"yes"| H["Issue MFA challenge<br/>TTL 300 s, 5 attempts"]
+  H --> H1[/"Enter 6-digit code<br/>or recovery code"/]:::io
+  H1 --> H2{"Valid and<br/>not replayed?"}
+  H2 -->|"no"| H1
+  H2 -->|"yes"| S
+  G -->|"no"| I{"Face template<br/>enrolled?"}
+  I -->|"yes"| J["Issue face challenge<br/>TTL 120 s, 3 attempts"]
+  J --> J1[/"Capture 3 face samples"/]:::io
+  J1 --> J2{"Distance under 0.5 and<br/>liveness variance met?"}
+  J2 -->|"no"| J1
+  J2 -->|"yes"| S
+  I -->|"no"| S["Issue access JWT (15 min)<br/>and refresh token (7 days)"]
+  S --> T["Store tokens in client,<br/>route by role"]
+  T --> Z(["End"]):::term
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

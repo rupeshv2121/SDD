@@ -1,0 +1,23 @@
+flowchart LR
+  I1[/"Student message<br/>max 1000 chars,<br/>last 6 turns"/]:::io --> RL["Chat rate limiter<br/>10 per minute"]
+  RL --> AS["Assistant loop<br/>max 3 tool rounds"]
+  AS <-->|"messages + tool schemas"| LLM["Groq chat completion<br/>tool calling"]:::ext
+  AS --> TL["Tool executor<br/>userId taken from JWT"]
+  TL --> T1["getMyComplaints"]
+  TL --> T2["getMyDoubts"]
+  TL --> T3["getMyAnswers"]
+  TL --> T4["getMyNotifications"]
+  TL --> T5["searchDoubts<br/>(hybrid search)"]
+  T1 --> DB[("Complaint, Doubt, Answer,<br/>Notification")]:::store
+  T2 --> DB
+  T3 --> DB
+  T4 --> DB
+  T5 --> DB
+  AS --> O[/"Answer text labelled AI<br/>with records used"/]:::io
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

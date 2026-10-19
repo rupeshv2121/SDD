@@ -1,0 +1,21 @@
+flowchart LR
+  I1[/"Dashboard request"/]:::io --> R{"Role"}
+  R -->|"Student"| SD["Own complaints, own doubts,<br/>subject-wise analytics"]
+  R -->|"Faculty"| FD["Assigned complaints,<br/>doubt queue"]
+  R -->|"Admin"| AD["Dashboard stats, analytics,<br/>pending approvals"]
+  R -->|"Super Admin"| XD["Super-admin stats,<br/>escalations, admins"]
+  SD --> DB[("Users, Doubts,<br/>Complaints")]:::store
+  FD --> DB
+  AD --> DB
+  XD --> DB
+  SD --> O[/"Cards and Recharts charts<br/>in the client"/]:::io
+  FD --> O
+  AD --> O
+  XD --> O
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

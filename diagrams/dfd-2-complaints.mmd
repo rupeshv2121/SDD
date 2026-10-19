@@ -1,0 +1,48 @@
+flowchart LR
+  S["Student"]:::entity
+  A["Admin"]:::entity
+  F["Assigned Staff"]:::entity
+  X["Super Admin"]:::entity
+  LLM["AI Providers"]:::entity
+  P41(["4.1<br/>Parse<br/>description"])
+  P42(["4.2<br/>Check<br/>duplicates"])
+  P43(["4.3<br/>File<br/>complaint"])
+  P44(["4.4<br/>Rank and<br/>assign"])
+  P45(["4.5<br/>Update<br/>status"])
+  P46(["4.6<br/>Confirm or<br/>reject"])
+  P47(["4.7<br/>Escalate and<br/>reassign"])
+  D3[("D3 Complaints")]:::store
+  D1[("D1 Users and profiles")]:::store
+  D6s[("D6 Attachments")]:::store
+  D4[("D4 Notifications")]:::store
+
+  S -->|"free text"| P41
+  P41 -->|"unmatched text"| LLM
+  LLM -->|"fields"| P41
+  P41 -->|"suggested fields"| S
+  S -->|"block, room, text"| P42
+  D3 -->|"open complaint vectors"| P42
+  P42 -->|"possible duplicates"| S
+  S -->|"confirmed form, photo ids"| P43
+  P43 -->|"new complaint"| D3
+  P43 -->|"confirm photos"| D6s
+  A -->|"complaint, chosen assignee"| P44
+  D1 -->|"staff categories, load"| P44
+  P44 -->|"assignee, history"| D3
+  F -->|"status, note, repair photos"| P45
+  P45 -->|"new status"| D3
+  S -->|"confirm or reason"| P46
+  P46 -->|"RESOLVED or back to ASSIGNED"| D3
+  P46 -->|"rejection alert"| X
+  X -->|"new assignee, note"| P47
+  P47 -->|"reassignment"| D3
+  P44 -->|"notification"| D4
+  P45 -->|"notification"| D4
+  P46 -->|"notification"| D4
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

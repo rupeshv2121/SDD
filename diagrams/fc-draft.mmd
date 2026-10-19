@@ -1,0 +1,20 @@
+flowchart TD
+  A(["Start: daily job or<br/>faculty request"]):::term --> B["Select OPEN doubts older than<br/>24 h with no answer and no draft"]
+  B --> C{"Any left?"}
+  C -->|"no"| Z(["End"]):::term
+  C -->|"yes"| D["Hybrid search for similar doubts<br/>with APPROVED answers"]
+  D --> E{"Sources with similarity<br/>at least 0.45?"}
+  E -->|"no"| F["Skip: no grounding,<br/>no draft"] --> C
+  E -->|"yes"| G["Build prompt with up to 3<br/>sources of 1200 chars"]
+  G --> H["Call Groq; on failure<br/>Groq key 2, then Mistral"]
+  H --> I{"Completion<br/>returned?"}
+  I -->|"no"| J["Log, retry next run"] --> C
+  I -->|"yes"| K["Save AnswerDraft PENDING<br/>with sourceIds and model"]
+  K --> C
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff

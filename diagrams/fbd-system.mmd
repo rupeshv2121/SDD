@@ -1,0 +1,56 @@
+flowchart TB
+  USERS["Users: Student, Faculty / Staff, Admin, Super Admin"]:::entity
+  CLIENT["Client Application<br/>React SPA + PWA service worker"]
+  CRON["Vercel Cron<br/>daily trigger"]:::ext
+  subgraph SERVER["Application Server: Express REST API on Vercel serverless"]
+    GW["Request pipeline: request id, helmet, CORS, rate limits,<br/>JWT authentication, role authorization"]
+    subgraph CORE["Core functions (Minor Project)"]
+      M1["Authentication and<br/>Access Control"]
+      M2["User and Profile<br/>Management"]
+      M3["Academic Doubt<br/>Community"]
+      M8["Complaint<br/>Management"]
+      M14["Dashboards and<br/>Analytics"]
+    end
+    subgraph AI["Intelligence functions (Major Project)"]
+      M4["Semantic Search<br/>and Embedding"]:::major
+      M5["AI Answer<br/>Drafting"]:::major
+      M6["Assistant<br/>Chatbot"]:::major
+      M7["Image Doubt<br/>Transcription"]:::major
+      M9["Complaint<br/>Intelligence"]:::major
+    end
+    subgraph PLAT["Platform functions (Major Project)"]
+      M10["SLA and<br/>Scheduled Jobs"]:::major
+      M11["Notification and<br/>Messaging"]:::major
+      M12["File Storage and<br/>Attachments"]:::major
+      M13["Reputation and<br/>Faculty Statistics"]:::major
+      M15["Audit, Privacy and<br/>Observability"]:::major
+    end
+  end
+  DB[("PostgreSQL (Supabase)<br/>+ pgvector")]:::store
+  OBJ[("Supabase Storage<br/>bucket")]:::store
+  AIP["AI providers<br/>HuggingFace, Groq, Mistral"]:::ext
+  MSG["Messaging providers<br/>Resend, Telegram, Web Push"]:::ext
+
+  M1 ~~~ M2 ~~~ M3 ~~~ M8 ~~~ M14
+  M4 ~~~ M5 ~~~ M6 ~~~ M7 ~~~ M9
+  M10 ~~~ M11 ~~~ M12 ~~~ M13 ~~~ M15
+  USERS -->|"HTTPS"| CLIENT
+  CLIENT -->|"REST/JSON + Bearer JWT"| GW
+  GW --> M1
+  GW --> M4
+  GW --> M10
+  CRON -->|"/api/internal/cron/daily"| M10
+  M14 --> DB
+  M9 --> DB
+  M15 --> DB
+  M9 -->|"embed, generate,<br/>read image"| AIP
+  M15 ~~~ MSG
+  M11 -.->|"email, chat, push"| MSG
+  M12 -.-> OBJ
+
+  classDef ext fill:#ffffff,stroke:#555555,stroke-dasharray:5 4,color:#111111
+  classDef io fill:#f2f2f2,stroke:#333333,color:#111111
+  classDef store fill:#e8eef7,stroke:#1f3a5f,color:#111111
+  classDef major fill:#fff6e5,stroke:#9a6200,color:#111111
+  classDef entity fill:#e9f3ea,stroke:#2c6e46,color:#111111
+  classDef term fill:#1f3a5f,stroke:#1f3a5f,color:#ffffff
